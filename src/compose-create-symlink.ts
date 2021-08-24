@@ -61,10 +61,19 @@ export async function composeCreateSymlink(
         },
       },
     },
-  } = await octokit.graphql(query, {
-    owner,
-    repo,
-  });
+  } = await octokit.graphql(
+    query,
+    branch
+      ? {
+          owner,
+          repo,
+          ref: `refs/heads/${branch}`,
+        }
+      : {
+          owner,
+          repo,
+        }
+  );
 
   // https://docs.github.com/en/rest/reference/git#create-a-blob
   const { data: blob } = await octokit.request(
