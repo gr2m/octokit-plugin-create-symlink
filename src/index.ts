@@ -1,11 +1,15 @@
 import { Octokit } from "@octokit/core";
 import { VERSION } from "./version";
 
-type Options = Record<string, unknown>;
+import { composeCreateSymlink } from "./compose-create-symlink";
+export { composeCreateSymlink } from "./compose-create-symlink";
 
 /**
- * @param octokit Octokit instance
- * @param options Options passed to Octokit constructor
+ * @param {Octokit} octokit
  */
-export function createSymlink(octokit: Octokit, options: Options) {}
+export function createSymlink(octokit: Octokit) {
+  return {
+    createSymlink: composeCreateSymlink.bind(null, octokit),
+  };
+}
 createSymlink.VERSION = VERSION;
