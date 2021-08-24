@@ -12,7 +12,7 @@ describe("happy path", () => {
       .post("path:/graphql", {
         data: {
           repository: {
-            defaultBranchRef: {
+            ref: {
               name: "main",
               target: {
                 oid: "commitsha1",
@@ -109,7 +109,7 @@ describe("happy path", () => {
       .post("path:/graphql", {
         data: {
           repository: {
-            defaultBranchRef: {
+            ref: {
               name: "main",
               target: {
                 oid: "commitsha1",
@@ -206,7 +206,7 @@ describe("happy path", () => {
       .post("path:/graphql", {
         data: {
           repository: {
-            defaultBranchRef: {
+            ref: {
               name: "main",
               target: {
                 oid: "commitsha1",

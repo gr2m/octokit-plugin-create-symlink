@@ -13,10 +13,10 @@ export async function composeCreateSymlink(
   octokit: Octokit,
   { owner, repo, sourcePath, targetPath, message, branch }: Options
 ) {
-  const query = `
-    query ($owner: String!, $repo: String!) {
+  const queryDefaultBranch = `
+    query defaultBranch($owner: String!, $repo: String!) {
       repository(owner: $owner, name: $repo) {
-        defaultBranchRef {
+        ref:defaultBranchRef {
           name
           target {
             oid
@@ -31,10 +31,29 @@ export async function composeCreateSymlink(
     }
   `;
 
+  const queryCustomBranch = `
+    query customBranch($owner: String!, $repo: String!, $ref: String!) {
+      repository(owner: $owner, name: $repo) {
+        ref(qualifiedName:$ref) {
+          target {
+            oid
+            ... on Commit {
+              tree {
+                oid
+              }
+            }
+          }
+        }
+      }
+    }
+  `;
+
+  const query = branch ? queryCustomBranch : queryDefaultBranch;
+
   // https://docs.github.com/en/rest/reference/repos#list-commits
   const {
     repository: {
-      defaultBranchRef: {
+      ref: {
         name: defaultBranch,
         target: {
           oid: latestCommitSha,
