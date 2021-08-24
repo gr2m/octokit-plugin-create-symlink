@@ -94,5 +94,8 @@
         }
       ]
     ]
+  },
+  "dependencies": {
+    "octokit-plugin-create-symlink": "^1.0.1"
   }
 }
